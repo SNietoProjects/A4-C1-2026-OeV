@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Tema 4 — Poder Judicial y Tribunal Constitucional | Opositar en Valencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--naranja:#d97706;--naranja-claro:#fef3c7;--naranja-borde:#f59e0b;--azul-oscuro:#1e293b;--texto:#374151;--texto-suave:#6b7280;--borde:#e5e7eb;--fondo:#fafaf9;--blanco:#ffffff;--verde:#166534;--verde-bg:#f0fdf4;--verde-borde:#86efac;--rojo:#991b1b;--rojo-bg:#fef2f2;--rojo-borde:#fca5a5;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Sans 3',sans-serif;background:var(--fondo);color:var(--texto);min-height:100vh;font-size:16px;line-height:1.6;}
+  header{background:var(--blanco);border-bottom:1px solid var(--borde);}
+  .header-top{max-width:860px;margin:0 auto;padding:1.4rem 1.5rem 1rem;display:flex;align-items:flex-start;gap:1.2rem;}
+  .header-logo{width:48px;height:48px;border-radius:8px;object-fit:contain;flex-shrink:0;}
+  .header-textos{flex:1;}
+  .header-site{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--naranja);font-weight:600;margin-bottom:3px;}
+  .header-titulo{font-family:'Lora',serif;font-size:clamp(1.2rem,3.5vw,1.7rem);font-weight:700;color:var(--azul-oscuro);line-height:1.2;}
+  .header-sub{font-size:0.88rem;color:var(--texto-suave);margin-top:4px;}
+  .header-meta{background:var(--naranja-claro);border-top:1px solid #fde68a;padding:0.55rem 1.5rem;}
+  .header-meta-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;font-size:0.83rem;color:#92400e;font-weight:500;}
+  .barra-wrap{position:sticky;top:0;z-index:100;background:var(--blanco);border-bottom:1px solid var(--borde);padding:0.6rem 1.5rem;box-shadow:0 1px 6px rgba(0,0,0,0.05);}
+  .barra-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:1rem;}
+  .barra-track{flex:1;height:6px;background:#f3f4f6;border-radius:99px;overflow:hidden;}
+  .barra-fill{height:100%;background:var(--naranja);border-radius:99px;transition:width 0.35s ease;width:0%;}
+  .barra-num{font-size:13px;font-weight:600;color:var(--azul-oscuro);white-space:nowrap;min-width:52px;}
+  .barra-score{font-size:13px;color:var(--texto-suave);white-space:nowrap;}
+  .barra-score .ok{color:var(--verde);font-weight:600;}
+  .barra-score .ko{color:var(--rojo);font-weight:600;}
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .card{background:var(--blanco);border:1px solid var(--borde);border-radius:10px;padding:1.5rem 1.6rem;margin-bottom:1.4rem;transition:box-shadow 0.2s;}
+  .card:hover{box-shadow:0 3px 14px rgba(0,0,0,0.06);}
+  .card-num{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--naranja);margin-bottom:0.5rem;}
+  .card-pregunta{font-family:'Lora',serif;font-size:1rem;font-weight:600;line-height:1.55;color:var(--azul-oscuro);margin-bottom:1.1rem;}
+  .opciones{display:flex;flex-direction:column;gap:0.45rem;}
+  .opcion{display:flex;align-items:flex-start;gap:0.7rem;padding:0.7rem 1rem;border:1.5px solid var(--borde);border-radius:7px;cursor:pointer;background:var(--blanco);text-align:left;font-family:'Source Sans 3',sans-serif;font-size:0.93rem;color:var(--texto);line-height:1.5;transition:border-color 0.15s,background 0.15s;width:100%;}
+  .opcion:hover:not(:disabled){border-color:var(--naranja-borde);background:var(--naranja-claro);}
+  .opcion .letra{font-weight:700;color:var(--naranja);min-width:18px;font-size:0.85rem;margin-top:2px;flex-shrink:0;}
+  .opcion.correcta{border-color:var(--verde-borde);background:var(--verde-bg);color:var(--verde);}
+  .opcion.correcta .letra{color:#15803d;}
+  .opcion.incorrecta{border-color:var(--rojo-borde);background:var(--rojo-bg);color:var(--rojo);}
+  .opcion.incorrecta .letra{color:var(--rojo);}
+  .opcion:disabled{cursor:default;}
+  .explicacion{display:none;margin-top:1rem;padding:0.9rem 1rem 0.9rem 1.1rem;background:#fffbeb;border-left:3px solid var(--naranja);border-radius:0 6px 6px 0;font-size:0.875rem;line-height:1.65;color:var(--texto);}
+  .explicacion.visible{display:block;animation:fadeIn 0.22s ease;}
+  .explicacion strong{color:var(--azul-oscuro);}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
+  .resultado{display:none;background:var(--blanco);border:1px solid var(--borde);border-radius:12px;padding:2.5rem 2rem 2rem;margin:1.5rem 0 2rem;text-align:center;}
+  .resultado.visible{display:block;animation:fadeIn 0.3s ease;}
+  .resultado-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--naranja);font-weight:600;margin-bottom:0.5rem;}
+  .resultado h2{font-family:'Lora',serif;font-size:1.75rem;font-weight:700;color:var(--azul-oscuro);margin-bottom:0.3rem;}
+  .resultado-nota{font-size:3.2rem;font-weight:700;color:var(--azul-oscuro);line-height:1;margin:1rem 0 0.3rem;font-family:'Lora',serif;}
+  .resultado-nota span{color:var(--naranja);}
+  .calif-badge{display:inline-block;padding:5px 16px;border-radius:99px;font-size:0.9rem;font-weight:600;margin:0.6rem 0 1.5rem;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:0 0 1.5rem;}
+  .stat{background:var(--fondo);border:1px solid var(--borde);border-radius:8px;padding:0.9rem 0.5rem;}
+  .stat-num{font-size:1.9rem;font-weight:700;font-family:'Lora',serif;}
+  .stat-lab{font-size:0.78rem;color:var(--texto-suave);margin-top:2px;}
+  .resultado-hint{font-size:0.85rem;color:var(--texto-suave);margin-bottom:1.2rem;}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:0.7rem 1.6rem;border-radius:7px;font-family:'Source Sans 3',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;border:none;transition:all 0.18s;}
+  .btn-naranja{background:var(--naranja);color:white;}
+  .btn-naranja:hover{background:#b45309;transform:translateY(-1px);}
+  .divider{text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--texto-suave);margin:2rem 0 1.5rem;display:flex;align-items:center;gap:1rem;}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--borde);}
+  @media(max-width:580px){main{padding:1.2rem 1rem 4rem;}.card{padding:1.1rem;}.stats{grid-template-columns:1fr 1fr;}.header-top{padding:1rem;gap:0.8rem;}.header-meta{padding:0.5rem 1rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <img class="header-logo"
+      src="https://opositorgva.wordpress.com/wp-content/uploads/2024/04/cropped-opositar-en-valencia-logo-sin-fondo.png"
+      alt="Opositar en Valencia" onerror="this.style.display='none'">
+    <div class="header-textos">
+      <div class="header-site">Opositar en Valencia · GVA</div>
+      <div class="header-titulo">Tema 4 — El Poder Judicial y el Tribunal Constitucional</div>
+      <div class="header-sub">Título VI: El Poder Judicial (arts. 117–127) · Título IX: El Tribunal Constitucional (arts. 159–165)</div>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="header-meta-inner">
+      <span>📋 50 preguntas</span>
+      <span>🎯 Nivel medio-alto</span>
+      <span>🔀 Orden aleatorio en cada intento</span>
+      <span>✅ Explicación en cada respuesta</span>
+    </div>
+  </div>
+</header>
+
+<div class="barra-wrap">
+  <div class="barra-inner">
+    <div class="barra-track"><div class="barra-fill" id="barraFill"></div></div>
+    <span class="barra-num" id="barraNum">0 / 50</span>
+    <span class="barra-score"><span class="ok" id="scoreOk">✓ 0</span> &nbsp;<span class="ko" id="scoreKo">✗ 0</span></span>
+  </div>
+</div>
+
+<main id="mainContent"></main>
+
+<script>
+const BANCO = [
+  // ── TÍTULO VI: EL PODER JUDICIAL ──
+  {
+    p: "El artículo 117.1 CE define la naturaleza de la justicia y de quienes la administran. ¿Cuáles son las cuatro características que la Constitución atribuye a los Jueces y Magistrados?",
+    ops: ["Imparciales, inamovibles, responsables y sometidos a la ley y a la Constitución", "Independientes, inamovibles, responsables y sometidos únicamente al imperio de la ley", "Independientes, imparciales, inamovibles y sometidos al Consejo General del Poder Judicial", "Neutrales, independientes, inamovibles y responsables únicamente ante el Tribunal Supremo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.1 CE establece que los Jueces y Magistrados son «independientes, inamovibles, responsables y sometidos únicamente al imperio de la ley». Son cuatro notas esenciales: independencia (no dependen de nadie), inamovilidad (no pueden ser removidos arbitrariamente), responsabilidad (responden de sus actos) y sumisión exclusiva a la ley."
+  },
+  {
+    p: "Según el artículo 117.1 CE, ¿en nombre de quién se administra la justicia?",
+    ops: ["En nombre del Estado español y del pueblo que lo constituye", "En nombre del Rey", "En nombre de las Cortes Generales como representantes de la soberanía popular", "En nombre del Tribunal Supremo como órgano jurisdiccional superior"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.1 CE establece que la justicia «se administra en nombre del Rey por Jueces y Magistrados». Esta fórmula es de carácter protocolario y simbólico, y no implica que el Rey intervenga en la administración de justicia, función que corresponde exclusivamente a los jueces."
+  },
+  {
+    p: "El artículo 117.2 CE garantiza la inamovilidad de los jueces. ¿En qué circunstancias pueden ser separados, suspendidos, trasladados o jubilados?",
+    ops: ["Nunca; la inamovilidad es absoluta durante todo su mandato", "Solo por alguna de las causas y con las garantías previstas en la ley", "Por decisión motivada del Consejo General del Poder Judicial con ratificación del Tribunal Supremo", "Por acuerdo del Gobierno con informe preceptivo del Consejo de Estado"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.2 CE establece que los Jueces y Magistrados «no podrán ser separados, suspendidos, trasladados ni jubilados, sino por alguna de las causas y con las garantías previstas en la ley». La inamovilidad no es absoluta: admite excepciones tasadas por la ley, garantizando así la independencia judicial frente a presiones externas."
+  },
+  {
+    p: "El artículo 117.3 CE atribuye en exclusiva la potestad jurisdiccional a determinados órganos. ¿Cuáles son y qué comprende esa potestad?",
+    ops: ["Al Tribunal Supremo y los Tribunales Superiores de Justicia; comprende dictar sentencias y hacer cumplir las resoluciones firmes", "A los Juzgados y Tribunales determinados por las leyes; comprende juzgar y hacer ejecutar lo juzgado en todo tipo de procesos", "Al Tribunal Constitucional y al Tribunal Supremo; comprende interpretar las leyes y resolver los recursos de casación", "A los órganos jurisdiccionales y al Ministerio Fiscal; comprende la investigación del delito y el ejercicio de la acción penal"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.3 CE establece que «el ejercicio de la potestad jurisdiccional en todo tipo de procesos, juzgando y haciendo ejecutar lo juzgado, corresponde exclusivamente a los Juzgados y Tribunales determinados por las leyes». La potestad jurisdiccional tiene dos facetas: juzgar (fase declarativa) y ejecutar lo juzgado (fase ejecutiva)."
+  },
+  {
+    p: "El artículo 117.4 CE prohíbe que los Juzgados y Tribunales ejerzan funciones distintas de las jurisdiccionales, salvo una excepción. ¿Cuál es?",
+    ops: ["Las funciones notariales y registrales cuando la ley así lo establezca", "Las que expresamente les sean atribuidas por ley en garantía de cualquier derecho", "Las funciones de mediación y arbitraje en conflictos civiles y mercantiles", "Las funciones administrativas propias del Registro Civil"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.4 CE establece que los Juzgados y Tribunales «no ejercerán más funciones que las señaladas en el apartado anterior y las que expresamente les sean atribuidas por ley en garantía de cualquier derecho». Esta excepción permite atribuirles funciones de jurisdicción voluntaria, siempre que la ley así lo prevea explícitamente."
+  },
+  {
+    p: "El artículo 117.5 CE consagra un principio fundamental de la organización judicial española. ¿De qué principio se trata y qué excepción admite?",
+    ops: ["Principio de independencia judicial; admite excepciones para el Tribunal Constitucional", "Principio de unidad jurisdiccional; admite la jurisdicción militar en el ámbito estrictamente castrense y en estado de sitio", "Principio de exclusividad jurisdiccional; admite el arbitraje privado regulado por ley", "Principio de reserva jurisdiccional; admite los Tribunales consuetudinarios reconocidos por la CE"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.5 CE establece que «el principio de unidad jurisdiccional es la base de la organización y funcionamiento de los Tribunales». La única excepción expresamente prevista es la jurisdicción militar, que la ley regulará «en el ámbito estrictamente castrense y en los supuestos de estado de sitio»."
+  },
+  {
+    p: "El artículo 117.6 CE contiene una prohibición absoluta. ¿Qué prohíbe?",
+    ops: ["Los tribunales arbitrales con funciones equivalentes a los judiciales", "Los Tribunales de excepción", "Los Tribunales especiales para aforados sin competencia de la Sala Penal del TS", "Los juicios en ausencia sin garantías de defensa adecuadas"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 117.6 CE establece de forma rotunda: «Se prohíben los Tribunales de excepción». Esta prohibición garantiza el derecho al juez ordinario predeterminado por la ley (art. 24.2 CE) y evita la creación de tribunales ad hoc para juzgar casos concretos o personas determinadas."
+  },
+  {
+    p: "El artículo 118 CE establece la obligación de cumplir las resoluciones judiciales. ¿A quién se dirige esta obligación?",
+    ops: ["Solo a los poderes públicos y a las Administraciones Públicas", "A todos, estando obligados a cumplir las sentencias y resoluciones firmes y a prestar la colaboración requerida por los jueces en el proceso y en la ejecución", "Únicamente a los ciudadanos que sean parte en el proceso judicial", "Solo a los funcionarios públicos que actúen en el ejercicio de sus funciones"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 118 CE establece que «es obligado cumplir las sentencias y demás resoluciones firmes de los Jueces y Tribunales, así como prestar la colaboración requerida por éstos en el curso del proceso y en la ejecución de lo resuelto». La obligación es universal: alcanza a ciudadanos, instituciones y poderes públicos."
+  },
+  {
+    p: "El artículo 119 CE reconoce el derecho a la justicia gratuita. ¿En qué supuestos garantiza la CE que la justicia será gratuita?",
+    ops: ["Siempre que así lo solicite el ciudadano, sin necesidad de acreditar ningún requisito económico", "Cuando así lo disponga la ley y, en todo caso, respecto de quienes acrediten insuficiencia de recursos para litigar", "Solo en el orden penal para los acusados que no puedan costearse defensa letrada", "Únicamente para los menores de edad y las personas con discapacidad reconocida"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 119 CE establece una doble garantía: la justicia será gratuita cuando «así lo disponga la ley» (supuestos legales de gratuidad) y «en todo caso» respecto de quienes «acrediten insuficiencia de recursos para litigar» (derecho subjetivo condicionado a la acreditación de precariedad económica)."
+  },
+  {
+    p: "Según el artículo 120.1 CE, ¿cuál es la regla general sobre la publicidad de las actuaciones judiciales?",
+    ops: ["Las actuaciones judiciales serán siempre secretas para garantizar la presunción de inocencia", "Las actuaciones judiciales serán públicas, con las excepciones que prevean las leyes de procedimiento", "Solo serán públicas las vistas orales en materia civil y penal, nunca las instrucciones sumariales", "La publicidad es un derecho renunciable de las partes, que pueden solicitar el secreto del proceso"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 120.1 CE establece que «las actuaciones judiciales serán públicas, con las excepciones que prevean las leyes de procedimiento». La publicidad es la regla y el secreto la excepción, que solo puede establecerse por ley y no por decisión discrecional del juez."
+  },
+  {
+    p: "El artículo 120.2 CE establece un principio sobre la forma del procedimiento judicial. ¿Cuál es y en qué materia resulta especialmente aplicable?",
+    ops: ["El procedimiento será predominantemente escrito, sobre todo en materia civil y contencioso-administrativa", "El procedimiento será predominantemente oral, sobre todo en materia criminal", "El procedimiento será siempre oral y público, sin excepción en ningún orden jurisdiccional", "El procedimiento será oral en primera instancia y escrito en los recursos de apelación y casación"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 120.2 CE establece que «el procedimiento será predominantemente oral, sobre todo en materia criminal». No impone la oralidad absoluta —dice «predominantemente»— pero sí marca una directriz constitucional especialmente relevante en el proceso penal."
+  },
+  {
+    p: "El artículo 120.3 CE establece dos requisitos para las sentencias. ¿Cuáles son?",
+    ops: ["Deberán ser razonadas y notificadas a todas las partes en el plazo máximo legal", "Serán siempre motivadas y se pronunciarán en audiencia pública", "Deberán ser escritas y publicadas en el Boletín Oficial correspondiente", "Serán motivadas, recurribles y dictadas dentro del plazo legalmente establecido"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 120.3 CE establece que «las sentencias serán siempre motivadas y se pronunciarán en audiencia pública». La motivación es una exigencia constitucional que conecta con el derecho a la tutela judicial efectiva (art. 24.1 CE) y la interdicción de la arbitrariedad (art. 9.3 CE)."
+  },
+  {
+    p: "El artículo 121 CE reconoce la responsabilidad del Estado por el funcionamiento de la Administración de Justicia. ¿En qué dos supuestos procede la indemnización?",
+    ops: ["Por retrasos injustificados en la resolución de asuntos y por condenas erróneas en el proceso penal", "Por error judicial y por el funcionamiento anormal de la Administración de Justicia", "Por vulneración de derechos fundamentales en el proceso y por incumplimiento de plazos procesales", "Por prisión provisional indebida y por dilaciones indebidas del proceso"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 121 CE establece que «los daños causados por error judicial, así como los que sean consecuencia del funcionamiento anormal de la Administración de Justicia, darán derecho a una indemnización a cargo del Estado». Son dos títulos distintos de responsabilidad: el error judicial (resolución equivocada) y el funcionamiento anormal (dilaciones, deficiencias organizativas)."
+  },
+  {
+    p: "El Consejo General del Poder Judicial (CGPJ) se regula en el artículo 122.2 y 122.3 CE. ¿Cuántos miembros lo integran y cuántos años dura su mandato?",
+    ops: ["Doce miembros nombrados por el Rey por un período de cuatro años", "Veintiún miembros nombrados por el Rey por un período de cinco años", "Veinte miembros nombrados por el Rey por un período de cinco años, más el Presidente del TS que lo preside", "Dieciocho miembros nombrados por las Cortes por un período de seis años"],
+    c: 2,
+    exp: "<strong>Respuesta correcta: C.</strong> El art. 122.3 CE establece que el CGPJ está integrado por el Presidente del Tribunal Supremo, que lo presidirá, y por veinte miembros nombrados por el Rey por un período de cinco años. En total son 21 personas (el Presidente del TS más los 20 vocales)."
+  },
+  {
+    p: "De los 20 vocales del CGPJ nombrados por el Rey, ¿cómo se distribuyen según el artículo 122.3 CE?",
+    ops: ["Doce propuestos por el Congreso y ocho por el Senado, todos entre jueces y magistrados", "Doce entre jueces y magistrados de todas las categorías; cuatro a propuesta del Congreso y cuatro a propuesta del Senado, estos últimos entre abogados y juristas con más de 15 años de ejercicio", "Diez propuestos por las Cortes, seis por el Gobierno y cuatro por el propio Poder Judicial", "Ocho propuestos por el Congreso, ocho por el Senado y cuatro por el Tribunal Supremo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 122.3 CE establece que de los 20 vocales: doce son elegidos entre Jueces y Magistrados de todas las categorías judiciales; cuatro a propuesta del Congreso y cuatro a propuesta del Senado, elegidos en ambos casos por mayoría de tres quintos entre abogados y otros juristas de reconocida competencia con más de quince años de ejercicio profesional."
+  },
+  {
+    p: "¿Qué mayoría exige el artículo 122.3 CE para que el Congreso y el Senado propongan los cuatro vocales del CGPJ que corresponden a cada Cámara?",
+    ops: ["Mayoría absoluta de sus miembros", "Mayoría de tres quintos de sus miembros", "Mayoría de dos tercios de sus miembros", "Mayoría simple de los miembros presentes"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 122.3 CE exige que los cuatro vocales propuestos por el Congreso y los cuatro propuestos por el Senado sean elegidos «por mayoría de tres quintos de sus miembros». Esta mayoría reforzada busca garantizar que los candidatos gocen de amplio consenso político."
+  },
+  {
+    p: "El artículo 123 CE regula el Tribunal Supremo. ¿Cómo lo define la Constitución y cuál es su única excepción?",
+    ops: ["Es el órgano jurisdiccional superior en todos los órdenes sin excepción alguna", "Es el órgano jurisdiccional superior en todos los órdenes, salvo lo dispuesto en materia de garantías constitucionales", "Es el órgano de unificación de doctrina judicial en todos los órdenes jurisdiccionales", "Es el máximo tribunal de casación en materia civil, penal y contencioso-administrativa"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 123.1 CE define al Tribunal Supremo como «el órgano jurisdiccional superior en todos los órdenes, salvo lo dispuesto en materia de garantías constitucionales». La excepción se refiere al Tribunal Constitucional, que es el supremo intérprete de la Constitución (art. 1 LOTC)."
+  },
+  {
+    p: "¿Cómo se nombra al Presidente del Tribunal Supremo según el artículo 123.2 CE?",
+    ops: ["Es elegido por los propios magistrados del Tribunal Supremo en votación secreta", "Es nombrado por el Rey, a propuesta del Consejo General del Poder Judicial, en la forma que determine la ley", "Es designado por el Gobierno con refrendo del Ministro de Justicia y ratificación del Congreso", "Es nombrado por las Cortes Generales en sesión conjunta por mayoría de tres quintos"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 123.2 CE establece que «el Presidente del Tribunal Supremo será nombrado por el Rey, a propuesta del Consejo General del Poder Judicial, en la forma que determine la ley». Intervienen así el CGPJ (que propone) y el Rey (que nombra formalmente)."
+  },
+  {
+    p: "El artículo 124.1 CE define la misión del Ministerio Fiscal. ¿Cuál es?",
+    ops: ["Ejercer la acción penal, representar al Estado en juicio y defender los intereses del Gobierno", "Promover la acción de la justicia en defensa de la legalidad, de los derechos de los ciudadanos y del interés público tutelado por la ley; velar por la independencia de los Tribunales y procurar la satisfacción del interés social", "Investigar los delitos de mayor gravedad, supervisar a la policía judicial y acusar ante los tribunales", "Defender al Estado en los procesos contencioso-administrativos y ejercer la acusación pública en el proceso penal"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 124.1 CE atribuye al Ministerio Fiscal la misión de: promover la acción de la justicia en defensa de la legalidad, de los derechos de los ciudadanos y del interés público; velar por la independencia de los Tribunales; y procurar la satisfacción del interés social. Puede actuar de oficio o a petición de los interesados."
+  },
+  {
+    p: "Los principios que rigen el funcionamiento del Ministerio Fiscal según el artículo 124.2 CE son:",
+    ops: ["Independencia, imparcialidad y objetividad en el ejercicio de sus funciones", "Unidad de actuación y dependencia jerárquica, con sujeción en todo caso a los principios de legalidad e imparcialidad", "Autonomía funcional, legalidad y coordinación con los órganos judiciales", "Independencia orgánica del Gobierno, jerarquía interna y sometimiento a la ley"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 124.2 CE establece que el Ministerio Fiscal ejerce sus funciones «conforme a los principios de unidad de actuación y dependencia jerárquica y con sujeción, en todo caso, a los de legalidad e imparcialidad». La unidad de actuación y la dependencia jerárquica son los principios organizativos; la legalidad y la imparcialidad son los principios funcionales."
+  },
+  {
+    p: "¿Cómo se nombra al Fiscal General del Estado según el artículo 124.4 CE?",
+    ops: ["Es elegido por el Consejo Fiscal entre los fiscales de mayor antigüedad y méritos", "Es nombrado por el Rey, a propuesta del Gobierno, oído el Consejo General del Poder Judicial", "Es designado por las Cortes Generales por mayoría absoluta a propuesta del Gobierno", "Es nombrado por el Consejo de Ministros con refrendo del Ministro de Justicia"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 124.4 CE establece que «el Fiscal General del Estado será nombrado por el Rey, a propuesta del Gobierno, oído el Consejo General del Poder Judicial». Intervienen así el Gobierno (propone), el CGPJ (emite informe preceptivo pero no vinculante) y el Rey (nombra formalmente)."
+  },
+  {
+    p: "El artículo 125 CE reconoce la participación ciudadana en la Administración de Justicia. ¿Qué formas de participación contempla?",
+    ops: ["La elección popular de jueces de paz y la participación en jurados ciudadanos de todos los órdenes jurisdiccionales", "El ejercicio de la acción popular, la participación mediante la institución del Jurado en los procesos penales que determine la ley, y la participación en los Tribunales consuetudinarios y tradicionales", "La presentación de demandas de amparo popular y la designación de peritos judiciales por asociaciones ciudadanas", "La participación en comisiones de supervisión judicial y el ejercicio de la acusación particular en delitos públicos"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 125 CE contempla tres formas de participación ciudadana: el ejercicio de la acción popular, la participación mediante la institución del Jurado en los procesos penales que la ley determine, y la participación en los Tribunales consuetudinarios y tradicionales (como el Tribunal de las Aguas de Valencia)."
+  },
+  {
+    p: "El artículo 127.1 CE prohíbe a los Jueces, Magistrados y Fiscales en activo pertenecer a determinadas organizaciones. ¿Cuáles son?",
+    ops: ["Partidos políticos, sindicatos y asociaciones empresariales", "Partidos políticos o sindicatos; además no pueden desempeñar otros cargos públicos", "Sindicatos, partidos políticos y colegios profesionales de abogados", "Partidos políticos y cualquier asociación de carácter ideológico o político"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 127.1 CE establece que los Jueces, Magistrados y Fiscales «mientras se hallen en activo, no podrán desempeñar otros cargos públicos, ni pertenecer a partidos políticos o sindicatos». La ley establecerá el sistema de asociación profesional, que sí está permitida."
+  },
+  // ── TÍTULO IX: EL TRIBUNAL CONSTITUCIONAL ──
+  {
+    p: "El artículo 159.1 CE fija la composición del Tribunal Constitucional. ¿Cuántos miembros lo componen y cómo se distribuyen entre los órganos que los proponen?",
+    ops: ["Doce miembros: cuatro por el Congreso, cuatro por el Senado, dos por el Gobierno y dos por el CGPJ", "Doce miembros: seis por el Congreso y seis por el Senado", "Quince miembros: cinco por el Congreso, cinco por el Senado y cinco por el Gobierno", "Doce miembros: tres por el Congreso, tres por el Senado, tres por el Gobierno y tres por el CGPJ"],
+    c: 0,
+    exp: "<strong>Respuesta correcta: A.</strong> El art. 159.1 CE establece que el TC se compone de 12 miembros nombrados por el Rey: cuatro a propuesta del Congreso (por mayoría de tres quintos), cuatro a propuesta del Senado (por la misma mayoría), dos a propuesta del Gobierno y dos a propuesta del Consejo General del Poder Judicial."
+  },
+  {
+    p: "El artículo 159.1 CE exige una mayoría cualificada para que el Congreso y el Senado propongan sus candidatos al TC. ¿Cuál es?",
+    ops: ["Mayoría absoluta de sus miembros", "Mayoría de dos tercios de sus miembros", "Mayoría de tres quintos de sus miembros", "Mayoría de tres cuartos de sus miembros"],
+    c: 2,
+    exp: "<strong>Respuesta correcta: C.</strong> El art. 159.1 CE establece que los cuatro miembros propuestos por el Congreso y los cuatro propuestos por el Senado se eligen «por mayoría de tres quintos de sus miembros». Esta mayoría reforzada busca asegurar consenso político amplio en la designación de los magistrados constitucionales."
+  },
+  {
+    p: "¿Qué perfil profesional exige el artículo 159.2 CE para ser nombrado miembro del Tribunal Constitucional?",
+    ops: ["Ser magistrado del Tribunal Supremo con más de veinte años de servicio activo", "Ser jurista de reconocida competencia con más de quince años de ejercicio profesional, pudiendo pertenecer a las categorías de magistrado, fiscal, profesor universitario, funcionario público o abogado", "Ser licenciado en Derecho con más de diez años de experiencia en el ámbito jurídico-público", "Ser catedrático de Derecho Constitucional o magistrado de alto tribunal con más de diez años en el cargo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 159.2 CE exige que los miembros del TC sean «nombrados entre Magistrados y Fiscales, Profesores de Universidad, funcionarios públicos y Abogados, todos ellos juristas de reconocida competencia con más de quince años de ejercicio profesional». Es una lista cerrada de categorías profesionales pero amplia en su variedad."
+  },
+  {
+    p: "El artículo 159.3 CE fija la duración del mandato de los miembros del TC y su sistema de renovación. ¿Cuáles son?",
+    ops: ["Mandato de seis años, renovándose por mitades cada tres años", "Mandato de nueve años, renovándose por terceras partes cada tres años", "Mandato de doce años sin posibilidad de reelección ni renovación parcial", "Mandato de nueve años, renovándose íntegramente al término del mismo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 159.3 CE establece que «los miembros del Tribunal Constitucional serán designados por un período de nueve años y se renovarán por terceras partes cada tres». Así, cada tres años se renuevan cuatro de los doce magistrados, garantizando continuidad institucional."
+  },
+  {
+    p: "El artículo 159.4 CE establece las incompatibilidades de los miembros del TC. ¿Cuál de las siguientes actividades SÍ es compatible con el cargo de magistrado constitucional?",
+    ops: ["El ejercicio de la abogacía en asuntos ajenos al TC", "La pertenencia a un partido político o sindicato", "El desempeño de funciones directivas en una fundación cultural privada sin carácter político", "El ejercicio de la carrera judicial o fiscal"],
+    c: 2,
+    exp: "<strong>Respuesta correcta: C.</strong> El art. 159.4 CE declara incompatible el cargo con: mandato representativo, cargos políticos o administrativos, funciones directivas en partido político o sindicato, empleo al servicio de los mismos, ejercicio de las carreras judicial y fiscal, y cualquier actividad profesional o mercantil. Una fundación cultural privada sin carácter político no entra en ninguna de estas categorías, aunque en la práctica existe debate sobre los límites."
+  },
+  {
+    p: "El artículo 159.5 CE garantiza la posición de los magistrados del TC durante su mandato. ¿Qué establece?",
+    ops: ["Podrán ser removidos por las Cortes Generales si incurren en notoria negligencia en el ejercicio de sus funciones", "Serán independientes e inamovibles en el ejercicio de su mandato", "Solo podrán ser separados del cargo por el pleno del propio TC mediante votación de dos tercios", "Gozarán de inmunidad parlamentaria equiparable a la de los Diputados y Senadores"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 159.5 CE establece que «los miembros del Tribunal Constitucional serán independientes e inamovibles en el ejercicio de su mandato». Estas dos garantías —independencia e inamovilidad— son esenciales para preservar la función de control de constitucionalidad frente a presiones de los poderes que los designaron."
+  },
+  {
+    p: "¿Cómo se nombra al Presidente del Tribunal Constitucional según el artículo 160 CE?",
+    ops: ["Es elegido por los doce magistrados en votación secreta y proclamado por el Rey", "Es nombrado entre sus miembros por el Rey, a propuesta del propio Tribunal en pleno, por un período de tres años", "Es designado por las Cortes Generales por mayoría de tres quintos entre los magistrados del TC", "Es nombrado por el Rey a propuesta del Gobierno, con ratificación del Congreso por mayoría absoluta"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 160 CE establece que «el Presidente del Tribunal Constitucional será nombrado entre sus miembros por el Rey, a propuesta del mismo Tribunal en pleno y por un período de tres años». El nombramiento es del Rey, pero la propuesta surge del propio Tribunal, garantizando la autonomía institucional."
+  },
+  {
+    p: "El artículo 161.1 CE enumera las competencias del Tribunal Constitucional. ¿Cuál de las siguientes NO figura expresamente en ese apartado?",
+    ops: ["El recurso de inconstitucionalidad contra leyes y disposiciones normativas con fuerza de ley", "El recurso de amparo por violación de derechos y libertades del art. 53.2 CE", "Los conflictos de competencia entre el Estado y las CCAA o de éstas entre sí", "El recurso de casación en interés de la ley en materia constitucional"],
+    c: 3,
+    exp: "<strong>Respuesta correcta: D.</strong> El art. 161.1 CE recoge: recurso de inconstitucionalidad (a), recurso de amparo (b), conflictos de competencia entre Estado y CCAA o entre CCAA (c) y las demás materias atribuidas por la CE o leyes orgánicas (d). El recurso de casación en interés de la ley es una figura propia de la jurisdicción ordinaria, no del TC."
+  },
+  {
+    p: "El artículo 161.2 CE atribuye al Gobierno la facultad de impugnar disposiciones de las CCAA ante el TC. ¿Qué efecto produce automáticamente esa impugnación?",
+    ops: ["La disposición queda derogada automáticamente hasta que el TC la confirme", "La impugnación produce la suspensión de la disposición o resolución recurrida, pero el TC deberá ratificarla o levantarla en un plazo no superior a cinco meses", "La disposición sigue en vigor hasta que el TC dicte sentencia estimatoria de la impugnación", "La disposición queda suspendida por tres meses prorrogables por el Gobierno si persiste la urgencia"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 161.2 CE establece que la impugnación gubernamental de disposiciones autonómicas «producirá la suspensión de la disposición o resolución recurrida, pero el Tribunal, en su caso, deberá ratificarla o levantarla en un plazo no superior a cinco meses». La suspensión automática es provisional y el TC debe pronunciarse en ese plazo."
+  },
+  {
+    p: "El artículo 162.1.a) CE establece quiénes están legitimados para interponer el recurso de inconstitucionalidad. ¿Cuál de las siguientes opciones recoge correctamente todos los legitimados?",
+    ops: ["El Presidente del Gobierno, los Presidentes autonómicos, 25 diputados o senadores y el Fiscal General del Estado", "El Presidente del Gobierno, el Defensor del Pueblo, 50 Diputados, 50 Senadores, los órganos colegiados ejecutivos de las CCAA y, en su caso, las Asambleas de las mismas", "El Gobierno, el Senado, las Asambleas legislativas autonómicas y el Defensor del Pueblo", "Cualquier ciudadano con interés legítimo, el Defensor del Pueblo y el Ministerio Fiscal"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 162.1.a) CE legitima para el recurso de inconstitucionalidad: el Presidente del Gobierno, el Defensor del Pueblo, 50 Diputados, 50 Senadores, los órganos colegiados ejecutivos de las CCAA y, en su caso, las Asambleas de las mismas. Nótese que se exigen 50 diputados o 50 senadores (no menos)."
+  },
+  {
+    p: "El artículo 162.1.b) CE regula la legitimación para el recurso de amparo constitucional. ¿Quiénes pueden interponerlo?",
+    ops: ["Solo el Defensor del Pueblo y el Ministerio Fiscal, en representación de las personas afectadas", "Toda persona natural o jurídica que invoque un interés legítimo, así como el Defensor del Pueblo y el Ministerio Fiscal", "Únicamente las personas físicas de nacionalidad española que hayan agotado la vía judicial previa", "El Defensor del Pueblo, el Ministerio Fiscal y los grupos parlamentarios con más de veinte escaños"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 162.1.b) CE establece que están legitimados para el recurso de amparo: «toda persona natural o jurídica que invoque un interés legítimo, así como el Defensor del Pueblo y el Ministerio Fiscal». La legitimación es amplia: incluye personas jurídicas y no exige la nacionalidad española."
+  },
+  {
+    p: "El artículo 163 CE regula la cuestión de inconstitucionalidad. ¿Quién puede plantearla y qué efectos tiene sobre el proceso en el que surge?",
+    ops: ["Cualquier parte procesal; suspende automáticamente el proceso hasta la resolución del TC", "Un órgano judicial que considere que una norma con rango de ley aplicable al caso pueda ser contraria a la CE; los efectos en ningún caso serán suspensivos", "El Ministerio Fiscal o cualquier parte interesada; el proceso queda paralizado hasta que el TC resuelva", "El Tribunal Supremo exclusivamente; la cuestión suspende el proceso si así lo acuerda el TC en el plazo de un mes"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 163 CE establece que la cuestión de inconstitucionalidad solo puede plantearla «un órgano judicial» (no las partes) cuando considere que una norma con rango de ley aplicable al caso pueda ser contraria a la CE. Los efectos «en ningún caso serán suspensivos», por lo que el proceso puede continuar mientras el TC resuelve."
+  },
+  {
+    p: "¿Cuáles son los requisitos que establece el art. 163 CE para que un órgano judicial plantee la cuestión de inconstitucionalidad?",
+    ops: ["Que la norma sea una ley orgánica y que de su validez dependa la resolución del conflicto", "Que sea una norma con rango de ley, que sea aplicable al caso concreto y que de su validez dependa el fallo", "Que la norma haya sido impugnada por alguna de las partes del proceso y que el juez lo considere relevante", "Que se trate de una ley posterior a la Constitución de 1978 y que afecte a derechos fundamentales"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 163 CE exige tres requisitos acumulativos: (1) que se trate de una norma con rango de ley; (2) que sea aplicable al caso concreto que se está resolviendo; y (3) que de su validez dependa el fallo. Si no concurren los tres, el juez no puede plantear la cuestión."
+  },
+  {
+    p: "Las sentencias del Tribunal Constitucional tienen un régimen especial según el artículo 164.1 CE. ¿Cuándo adquieren valor de cosa juzgada?",
+    ops: ["Desde el momento en que son dictadas por el pleno del Tribunal", "A partir del día siguiente de su publicación en el BOE, sin que quepa recurso alguno contra ellas", "Tras el plazo de veinte días desde su publicación sin que se haya interpuesto incidente de nulidad", "Una vez notificadas a las partes y transcurrido el plazo de impugnación"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 164.1 CE establece que las sentencias del TC «tienen el valor de cosa juzgada a partir del día siguiente de su publicación y no cabe recurso alguno contra ellas». Son resoluciones definitivas e inatacables: ningún otro órgano puede revocarlas."
+  },
+  {
+    p: "¿Qué sentencias del TC tienen «plenos efectos frente a todos» (eficacia erga omnes) según el artículo 164.1 CE?",
+    ops: ["Todas las sentencias del TC, con independencia de su contenido", "Las que declaren la inconstitucionalidad de una ley o norma con fuerza de ley y todas las que no se limiten a la estimación subjetiva de un derecho", "Solo las que declaren la inconstitucionalidad, no las desestimatorias ni las de amparo", "Únicamente las sentencias dictadas por el pleno, no las de las Salas"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 164.1 CE establece que tienen plenos efectos frente a todos «las que declaren la inconstitucionalidad de una ley o de una norma con fuerza de ley y todas las que no se limiten a la estimación subjetiva de un derecho». Las sentencias de amparo que solo estiman un derecho subjetivo no tienen eficacia erga omnes."
+  },
+  {
+    p: "Si el Tribunal Constitucional declara inconstitucional solo una parte de una ley, ¿qué ocurre con el resto según el artículo 164.2 CE?",
+    ops: ["Toda la ley queda derogada por efecto de la inconstitucionalidad parcial", "Subsistirá la vigencia de la ley en la parte no afectada por la inconstitucionalidad, salvo que en el fallo se disponga otra cosa", "El Parlamento dispone de seis meses para adaptar la ley a la Constitución antes de su derogación total", "El Gobierno deberá dictar un Decreto-ley que adapte el resto de la ley a la nueva situación jurídica"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 164.2 CE establece que «salvo que en el fallo se disponga otra cosa, subsistirá la vigencia de la ley en la parte no afectada por la inconstitucionalidad». El TC puede optar, sin embargo, por declarar la nulidad total si la parte inconstitucional es inseparable del resto."
+  },
+  {
+    p: "El artículo 165 CE exige que el funcionamiento del TC, el estatuto de sus miembros y el procedimiento ante el mismo se regulen mediante una norma específica. ¿Cuál?",
+    ops: ["Un reglamento del propio Tribunal Constitucional aprobado por mayoría de dos tercios de sus miembros", "Una ley orgánica", "Una ley ordinaria de las Cortes Generales aprobada por mayoría simple", "Un real decreto del Consejo de Ministros con informe del Consejo de Estado"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 165 CE establece que «una ley orgánica regulará el funcionamiento del Tribunal Constitucional, el estatuto de sus miembros, el procedimiento ante el mismo y las condiciones para el ejercicio de las acciones». Esta ley orgánica es la LOTC (LO 2/1979, de 3 de octubre)."
+  },
+  // ── PREGUNTAS DE CONTRASTE Y DETALLE ──
+  {
+    p: "¿Cuál es la diferencia fundamental entre el recurso de inconstitucionalidad (art. 161.1.a CE) y la cuestión de inconstitucionalidad (art. 163 CE)?",
+    ops: ["No hay diferencia: ambos sirven para impugnar leyes ante el TC y tienen los mismos efectos", "El recurso de inconstitucionalidad lo inician los legitimados del art. 162 CE de forma directa; la cuestión la plantea un juez en el contexto de un proceso en curso y sus efectos no son suspensivos", "La cuestión solo puede plantearse sobre leyes orgánicas; el recurso sirve para cualquier norma con rango de ley", "El recurso solo puede interponerse dentro de los tres meses desde la publicación de la ley; la cuestión no tiene plazo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> La distinción esencial es de legitimación y contexto: el recurso de inconstitucionalidad es una acción directa ejercida por los sujetos legitimados del art. 162.1.a) CE; la cuestión de inconstitucionalidad es un mecanismo incidental que solo puede plantear un órgano judicial en el marco de un proceso concreto, y sin efectos suspensivos sobre ese proceso."
+  },
+  {
+    p: "El artículo 122.2 CE enumera las funciones del CGPJ. ¿Cuáles se mencionan expresamente?",
+    ops: ["Selección de jueces, formación judicial, inspección de tribunales y resolución de recursos disciplinarios de los ciudadanos", "Nombramientos, ascensos, inspección y régimen disciplinario de los miembros del Poder Judicial", "Elaboración del presupuesto judicial, nombramiento del Fiscal General y control del acceso a la carrera judicial", "Propuesta de reformas legislativas, inspección de prisiones y supervisión del proceso de oposiciones judiciales"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 122.2 CE establece que la ley orgánica regulará las funciones del CGPJ «en particular en materia de nombramientos, ascensos, inspección y régimen disciplinario». Son las cuatro funciones nucleares que garantizan la independencia del Poder Judicial frente al Ejecutivo."
+  },
+  {
+    p: "El artículo 126 CE regula la policía judicial. ¿De quién depende y en qué ámbito funcional?",
+    ops: ["Depende del Ministerio del Interior en todas sus funciones de seguridad pública e investigación criminal", "Depende de los Jueces, de los Tribunales y del Ministerio Fiscal en sus funciones de averiguación del delito y descubrimiento y aseguramiento del delincuente", "Depende del Fiscal General del Estado para la investigación y del Ministerio del Interior para la seguridad pública", "Depende orgánicamente del Gobierno y funcionalmente del Poder Judicial"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 126 CE establece que «la policía judicial depende de los Jueces, de los Tribunales y del Ministerio Fiscal en sus funciones de averiguación del delito y descubrimiento y aseguramiento del delincuente». Esta dependencia es funcional (no orgánica) para las labores de investigación penal."
+  },
+  {
+    p: "Comparando el CGPJ (art. 122.3 CE) y el TC (art. 159.1 CE), ¿qué tienen en común en cuanto al número de miembros propuestos por las Cortes Generales?",
+    ops: ["En ambos casos las Cortes proponen la totalidad de los miembros", "En ambos casos el Congreso y el Senado proponen cuatro miembros cada uno, elegidos por mayoría de tres quintos", "Solo el TC exige mayoría de tres quintos; el CGPJ no requiere mayoría cualificada para los propuestos por las Cámaras", "En el CGPJ las Cortes proponen doce miembros en total; en el TC solo ocho"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> Tanto el CGPJ (art. 122.3 CE) como el TC (art. 159.1 CE) prevén que el Congreso y el Senado propongan cuatro miembros cada uno, elegidos en ambos casos por mayoría de tres quintos de sus miembros. Esta coincidencia normativa es un dato recurrente en exámenes."
+  },
+  {
+    p: "¿Pueden los Jueces y Magistrados en activo pertenecer a asociaciones profesionales según el artículo 127.1 CE?",
+    ops: ["No, la prohibición de asociación es absoluta para garantizar la independencia judicial", "Sí, la ley establecerá el sistema y modalidades de asociación profesional de los Jueces y Magistrados", "Sí, pero solo pueden pertenecer a una asociación y deben declararla al CGPJ", "Solo pueden asociarse los jueces en excedencia o en situación administrativa distinta del servicio activo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 127.1 CE prohíbe a Jueces y Magistrados pertenecer a partidos políticos o sindicatos, pero expresamente establece que «la ley establecerá el sistema y modalidades de asociación profesional de los Jueces, Magistrados y Fiscales». La asociación profesional (distinta del sindicato) está constitucionalmente permitida."
+  },
+  {
+    p: "Una sentencia del TC que desestima un recurso de amparo, ¿tiene eficacia erga omnes según el artículo 164.1 CE?",
+    ops: ["Sí, todas las sentencias del TC tienen eficacia general frente a todos", "No, porque es una sentencia que se limita a la estimación subjetiva de un derecho (o a su denegación) y no declara la inconstitucionalidad de ninguna norma", "Solo si el TC así lo establece expresamente en el fallo de la sentencia desestimatoria", "Sí, pero solo respecto a los órganos judiciales que tramitaron el proceso previo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 164.1 CE establece que tienen plenos efectos frente a todos las sentencias que declaren la inconstitucionalidad de una norma con rango de ley «y todas las que no se limiten a la estimación subjetiva de un derecho». Una sentencia desestimatoria de amparo se limita precisamente a resolver la pretensión subjetiva del recurrente, sin eficacia erga omnes."
+  },
+  {
+    p: "¿Cuál es la principal diferencia de posición institucional entre el Tribunal Supremo (art. 123 CE) y el Tribunal Constitucional (art. 159 CE)?",
+    ops: ["El TS pertenece al Poder Judicial; el TC es también un órgano judicial pero de rango superior al TS en todos los órdenes", "El TS es el órgano jurisdiccional superior en todos los órdenes salvo en garantías constitucionales; el TC es el supremo intérprete de la CE, ajeno al Poder Judicial ordinario", "Ambos forman parte del Poder Judicial pero con jurisdicciones diferenciadas: penal para el TS y constitucional para el TC", "El TC depende de las Cortes Generales; el TS depende del CGPJ; ambos están fuera del Poder Ejecutivo"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El TS (art. 123 CE) es el órgano superior del Poder Judicial ordinario, pero cede esa supremacía en materia de garantías constitucionales. El TC (art. 1 LOTC y Título IX CE) es el supremo intérprete de la Constitución, un órgano constitucional autónomo distinto del Poder Judicial, que resuelve sobre la constitucionalidad de las normas y la protección de los derechos fundamentales."
+  },
+  {
+    p: "¿Qué ocurre con la jurisprudencia previa cuando el TC declara inconstitucional una norma jurídica con rango de ley interpretada por los tribunales, según el artículo 161.1.a) CE?",
+    ops: ["Toda la jurisprudencia relacionada con esa norma queda automáticamente anulada", "La declaración de inconstitucionalidad afecta a la jurisprudencia basada en esa norma, si bien las sentencias ya recaídas no perderán el valor de cosa juzgada", "La jurisprudencia sigue siendo válida porque las sentencias individuales no pueden revisarse por el TC", "Solo se anula la jurisprudencia del Tribunal Supremo, no la de los Tribunales inferiores"],
+    c: 1,
+    exp: "<strong>Respuesta correcta: B.</strong> El art. 161.1.a) CE establece que «la declaración de inconstitucionalidad de una norma jurídica con rango de ley, interpretada por la jurisprudencia, afectará a ésta, si bien la sentencia o sentencias recaídas no perderán el valor de cosa juzgada». Se afecta la jurisprudencia futura pero se respetan las situaciones ya consolidadas por sentencias firmes."
+  }
+];
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function prepararPreguntas(){const m=shuffle(BANCO);return m.map(q=>{const ct=q.ops[q.c];const no=shuffle(q.ops);return{p:q.p,ops:no,c:no.indexOf(ct),exp:q.exp};});}
+
+let preguntas=[],respondidas=0,correctas=0,incorrectas=0;
+
+function actualizarBarra(){
+  const pct=preguntas.length?(respondidas/preguntas.length)*100:0;
+  document.getElementById('barraFill').style.width=pct+'%';
+  document.getElementById('barraNum').textContent=respondidas+' / '+preguntas.length;
+  document.getElementById('scoreOk').textContent='✓ '+correctas;
+  document.getElementById('scoreKo').textContent='✗ '+incorrectas;
+}
+function responder(qi,oi){
+  const q=preguntas[qi];
+  const btns=document.querySelectorAll('[data-qi="'+qi+'"]');
+  btns.forEach(b=>b.disabled=true);
+  btns.forEach((b,j)=>{if(j===q.c)b.classList.add('correcta');else if(j===oi&&oi!==q.c)b.classList.add('incorrecta');});
+  document.getElementById('exp-'+qi).classList.add('visible');
+  respondidas++;
+  if(oi===q.c)correctas++;else incorrectas++;
+  actualizarBarra();
+  if(respondidas===preguntas.length)setTimeout(mostrarResultado,700);
+}
+function mostrarResultado(){
+  const pct=Math.round((correctas/preguntas.length)*100);
+  document.getElementById('resPunt').innerHTML=correctas+' <span>/ '+preguntas.length+'</span>';
+  document.getElementById('resCorr').textContent=correctas;
+  document.getElementById('resIncorr').textContent=incorrectas;
+  document.getElementById('resPct').textContent=pct+'%';
+  let txt,col,bg;
+  if(pct>=90){txt='🏆 Sobresaliente';col='#166534';bg='#f0fdf4';}
+  else if(pct>=75){txt='✅ Notable';col='#1e3a5f';bg='#eff6ff';}
+  else if(pct>=60){txt='📘 Aprobado';col='#92400e';bg='#fffbeb';}
+  else{txt='❌ Insuficiente — ¡Sigue practicando!';col='#991b1b';bg='#fef2f2';}
+  document.getElementById('resCalif').innerHTML='<span class="calif-badge" style="background:'+bg+';color:'+col+'">'+txt+'</span>';
+  const el=document.getElementById('resultado');
+  el.classList.add('visible');
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function render(){
+  respondidas=0;correctas=0;incorrectas=0;
+  preguntas=prepararPreguntas();
+  actualizarBarra();
+  const main=document.getElementById('mainContent');
+  main.innerHTML='';
+  const letras=['A','B','C','D'];
+  preguntas.forEach((q,i)=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=
+      '<div class="card-num">Pregunta '+(i+1)+' de '+preguntas.length+'</div>'+
+      '<div class="card-pregunta">'+q.p+'</div>'+
+      '<div class="opciones">'+
+      q.ops.map((op,j)=>'<button class="opcion" data-qi="'+i+'" onclick="responder('+i+','+j+')"><span class="letra">'+letras[j]+')</span><span>'+op+'</span></button>').join('')+
+      '</div>'+
+      '<div class="explicacion" id="exp-'+i+'">'+q.exp+'</div>';
+    main.appendChild(card);
+  });
+  const sep=document.createElement('div');sep.className='divider';sep.textContent='Fin del test';main.appendChild(sep);
+  const res=document.createElement('div');res.className='resultado';res.id='resultado';
+  res.innerHTML=
+    '<div class="resultado-eyebrow">Resultado final</div>'+
+    '<h2>Test completado</h2>'+
+    '<div class="resultado-nota" id="resPunt">0 <span>/ 50</span></div>'+
+    '<div id="resCalif"></div>'+
+    '<div class="stats">'+
+    '<div class="stat"><div class="stat-num" id="resCorr" style="color:#166534">0</div><div class="stat-lab">Correctas</div></div>'+
+    '<div class="stat"><div class="stat-num" id="resIncorr" style="color:#991b1b">0</div><div class="stat-lab">Incorrectas</div></div>'+
+    '<div class="stat"><div class="stat-num" id="resPct">0%</div><div class="stat-lab">% aciertos</div></div>'+
+    '</div>'+
+    '<p class="resultado-hint">Desplázate hacia arriba para revisar las explicaciones de cada pregunta.</p>'+
+    '<button class="btn btn-naranja" onclick="render();window.scrollTo({top:0,behavior:\'smooth\'})">↺ Repetir con nuevo orden</button>';
+  main.appendChild(res);
+}
+render();
+</script>
+</body>
+</html>
